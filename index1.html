@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برنامج أميرة — تأهيل ما بعد الولادة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#E8507A;--pink2:#FDE8EF;--pink3:#FFF5F8;--dark:#3D3D3D;--mid:#6B6B6B;--bg:#FDF8FA;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);direction:rtl;}
+/* NAV */
+.nav{position:sticky;top:0;z-index:999;background:rgba(255,255,255,.97);border-bottom:2px solid var(--pink2);padding:8px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav button{background:none;border:none;border-radius:20px;padding:7px 14px;font-size:.78rem;font-weight:700;color:var(--mid);cursor:pointer;white-space:nowrap;font-family:'Cairo',sans-serif;}
+.nav button:hover,.nav button.on{background:var(--pink);color:white;}
+/* COVER */
+.cover{background:linear-gradient(160deg,#fff 0%,#fff5f8 60%,#fde8ef 100%);padding:60px 20px;text-align:center;}
+.cover h1{font-size:2.4rem;font-weight:900;color:var(--dark);margin:16px 0 8px;}
+.cover h1 span{color:var(--pink);}
+.cover p{color:var(--mid);font-size:.95rem;line-height:1.8;margin-bottom:24px;}
+.badge{display:inline-block;background:var(--pink);color:white;border-radius:30px;padding:7px 24px;font-size:.75rem;font-weight:800;letter-spacing:2px;margin-bottom:20px;}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0;}
+.ph{background:white;border:1.5px solid var(--pink2);border-radius:12px;padding:14px 8px;text-align:center;}
+.ph .num{font-size:1.8rem;font-weight:900;color:var(--pink);}
+.ph .lbl{font-size:.65rem;font-weight:700;color:var(--mid);margin-top:4px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px 0;}
+.chip{background:white;border:1.5px solid var(--pink2);border-radius:20px;padding:6px 14px;font-size:.74rem;font-weight:700;}
+/* SECTION */
+.sec-head{background:white;padding:36px 20px 28px;border-bottom:1px solid var(--pink2);}
+.sec-head .ey{font-size:.65rem;font-weight:800;letter-spacing:3px;color:var(--pink);text-transform:uppercase;margin-bottom:8px;}
+.sec-head h2{font-size:1.7rem;font-weight:900;margin-bottom:6px;}
+.sec-head p{font-size:.84rem;color:var(--mid);}
+/* WEEK BANNER */
+.wsec{background:var(--bg);padding:20px 14px 30px;}
+.wban{border-radius:16px;padding:20px 22px;margin-bottom:18px;color:white;background:var(--pink);}
+.wban h3{font-size:1.1rem;font-weight:900;margin-bottom:4px;}
+.wban p{font-size:.76rem;opacity:.88;}
+.wtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.wtag{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:3px 10px;font-size:.65rem;font-weight:700;}
+/* DAY CARD */
+.day{background:white;border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.06);}
+.day-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-head.tr{background:var(--pink);color:white;}
+.day-head.rs{background:#f5f5f5;}
+.day-info .dn{font-size:.62rem;font-weight:700;opacity:.75;letter-spacing:1px;}
+.day-info .nm{font-size:1rem;font-weight:800;margin:1px 0;}
+.day-info .fc{font-size:.7rem;opacity:.8;}
+.day-right{display:flex;align-items:center;gap:10px;}
+.dur{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 12px;font-size:.7rem;font-weight:700;}
+.dur.r{background:rgba(232,80,122,.08);border-color:rgba(232,80,122,.15);color:var(--pink);}
+.arr{font-size:.8rem;transition:transform .3s;display:inline-block;}
+.day-body{display:none;padding:20px;border-top:1px solid var(--pink2);}
+/* PHASE LABEL */
+.pl{font-size:.65rem;font-weight:800;letter-spacing:2px;color:var(--pink);text-transform:uppercase;margin:16px 0 10px;display:flex;align-items:center;gap:8px;}
+.pl:first-child{margin-top:0;}
+.pl::after{content:'';flex:1;height:1px;background:var(--pink2);}
+/* EXERCISE */
+.ex{border-radius:10px;padding:14px;margin-bottom:10px;display:flex;gap:12px;border:1px solid var(--pink2);background:var(--pink3);}
+.ex.b{background:#f5eeff;border-color:rgba(139,80,162,.15);}
+.ex.g{background:#fff8e8;border-color:rgba(212,168,67,.2);}
+.exn{width:30px;height:30px;border-radius:50%;background:var(--pink);color:white;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.exn.b{background:#8B5EA2;}
+.exn.g{background:#C9953A;}
+.exbody{flex:1;}
+.exname{font-weight:800;font-size:.88rem;margin-bottom:5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.4;}
+.tag{font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:12px;border:1px solid;}
+.tb{background:#EAF2FB;color:#1565C0;border-color:#BBDEFB;}
+.tbl{background:#E8F5E9;color:#2E7D32;border-color:#A5D6A7;}
+.tt{background:#FFF8E1;color:#F57F17;border-color:#FFE082;}
+.tbr{background:#F3E5F5;color:#7B1FA2;border-color:#CE93D8;}
+.tn{background:#F5F5F5;color:#555;border-color:#DDD;}
+.tne{background:#FFF3CD;color:#8B6000;border-color:#FFD54F;}
+.exdesc{font-size:.75rem;color:var(--mid);line-height:1.65;margin-bottom:8px;}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.mc{background:white;border:1px solid var(--pink2);border-radius:16px;padding:3px 10px;font-size:.67rem;font-weight:700;}
+/* YOUTUBE BUTTON */
+.yt{display:inline-flex;align-items:center;gap:6px;background:#FF0000;color:white;font-size:.68rem;font-weight:800;padding:6px 14px;border-radius:8px;text-decoration:none;font-family:'Cairo',sans-serif;}
+.yt:hover{background:#CC0000;}
+.ytico{background:white;color:#FF0000;width:16px;height:12px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.5rem;}
+/* REST */
+.rest-body{padding:24px;text-align:center;}
+.rest-body .ri{font-size:2.5rem;margin-bottom:10px;}
+.rest-body h3{font-size:1.05rem;font-weight:800;margin-bottom:6px;}
+.rest-tips{background:var(--pink3);border:1px solid var(--pink2);border-radius:10px;padding:14px;text-align:right;margin-top:14px;}
+.rest-tips h5{font-size:.78rem;font-weight:800;color:var(--pink);margin-bottom:8px;}
+.rest-tips li{list-style:none;font-size:.74rem;color:var(--mid);padding:3px 0;line-height:1.5;}
+/* INFO BOXES */
+.warn{background:#fff8e8;border:1.5px solid #E8B84D;border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.warn h4{font-size:.84rem;font-weight:800;color:#7A5C00;margin-bottom:8px;}
+.warn li{list-style:none;font-size:.74rem;color:#5A4200;padding:3px 0 3px 0;line-height:1.5;}
+.good{background:#f0fff8;border:1.5px solid #27AE60;border-radius:10px;padding:14px 16px;margin-bottom:14px;}
+.good h4{font-size:.84rem;font-weight:800;color:#1A6B3A;margin-bottom:8px;}
+.good li{list-style:none;font-size:.74rem;color:#145A32;padding:3px 0;line-height:1.5;}
+/* HEALTH */
+.cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;}
+.cc{background:var(--pink3);border:1px solid var(--pink2);border-radius:10px;padding:12px;display:flex;gap:10px;}
+.cic{width:34px;height:34px;border-radius:8px;background:white;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.cn{font-weight:800;font-size:.8rem;margin-bottom:2px;}
+.cd{font-size:.68rem;color:var(--mid);line-height:1.4;}
+/* WATER */
+.water{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:1.5px solid #90CAF9;border-radius:14px;padding:18px;margin-bottom:20px;}
+.water h4{font-size:.9rem;font-weight:800;color:#0D47A1;margin-bottom:4px;}
+.water p{font-size:.72rem;color:#1976D2;margin-bottom:12px;}
+.cups{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.cup{font-size:1.7rem;cursor:pointer;opacity:.3;filter:grayscale(1);transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.cup.on{opacity:1;filter:none;}
+/* PROGRESS */
+.prog{margin-bottom:12px;}
+.prog-lbl{display:flex;justify-content:space-between;font-size:.76rem;font-weight:700;margin-bottom:5px;}
+.prog-lbl span{color:var(--pink);}
+.prog-bar{background:#f0edf5;border-radius:20px;height:9px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--pink),#F7A8C0);transition:width .5s;width:0%;}
+/* NUTRITION */
+.nutsec{background:var(--bg);padding:24px 14px;}
+.nutcard{background:white;border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.nutcard h4{font-size:.92rem;font-weight:800;margin-bottom:12px;}
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.fc{background:var(--pink3);border:1px solid var(--pink2);border-radius:8px;padding:8px 10px;font-size:.72rem;font-weight:600;}
+.bc{background:#FFF0F0;border:1px solid #FFBBBB;border-radius:8px;padding:8px 10px;font-size:.72rem;font-weight:600;color:#C0392B;}
+/* TIPS */
+.tipssec{background:white;padding:24px 14px;}
+.tip{border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;border-right:3px solid var(--pink);}
+.tip.r{background:var(--pink3);border-right-color:var(--pink);}
+.tip.g{background:#fffbf0;border-right-color:#E8B84D;}
+.tip.t{background:#f0fafa;border-right-color:#3CBCB0;}
+.tip.l{background:#f5eeff;border-right-color:#8B5EA2;}
+.tip .em{font-size:1.3rem;flex-shrink:0;}
+.tip h5{font-size:.87rem;font-weight:800;margin-bottom:4px;}
+.tip p{font-size:.75rem;color:var(--mid);line-height:1.6;}
+/* QUOTE */
+.quote{text-align:center;padding:40px 20px;background:linear-gradient(135deg,var(--pink2),var(--pink3));border-top:1px solid var(--pink2);}
+.quote q{font-size:1.1rem;font-weight:800;color:var(--pink);line-height:1.7;display:block;max-width:480px;margin:0 auto 10px;}
+.quote cite{font-size:.8rem;color:var(--mid);font-style:normal;}
+/* FOOTER */
+footer{background:var(--dark);color:white;text-align:center;padding:36px 16px;}
+footer .fb{font-size:1.2rem;font-weight:900;color:#F07098;margin-bottom:6px;font-style:italic;}
+footer .ft{font-size:.75rem;opacity:.5;margin-bottom:14px;}
+footer .fd{font-size:.67rem;opacity:.3;max-width:460px;margin:0 auto;line-height:1.6;}
+/* TABLE */
+.tblwrap{overflow-x:auto;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:22px;}
+table{width:100%;border-collapse:collapse;font-size:.72rem;min-width:580px;}
+table thead tr{background:var(--pink);color:white;}
+table th{padding:11px 8px;font-weight:800;text-align:center;}
+table th:first-child{text-align:right;padding-right:12px;}
+table tbody tr:nth-child(even){background:var(--pink3);}
+table tbody tr:nth-child(odd){background:white;}
+table td{padding:9px 8px;text-align:center;border-bottom:1px solid var(--pink2);}
+table td:first-child{text-align:right;font-weight:700;padding-right:12px;}
+.chk{width:20px;height:20px;border:2px solid var(--pink2);border-radius:5px;margin:0 auto;cursor:pointer;display:flex;align-items:center;justify-content:center;background:white;-webkit-tap-highlight-color:transparent;}
+.chk.on{background:var(--pink);border-color:var(--pink);color:white;font-size:.72rem;font-weight:800;}
+/* MEAS TABLE */
+table.meas th:first-child{text-align:right;}
+table.meas td:first-child{font-weight:700;}
+table.meas input{width:60px;border:1.5px solid #ddd;border-radius:6px;padding:4px;text-align:center;font-family:'Cairo',sans-serif;font-size:.72rem;}
+@media(max-width:480px){.phases{grid-template-columns:repeat(2,1fr);}.fgrid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+
+<div class="cover">
+<div class="badge">★ برنامج تأهيل احترافي متكامل — 28 يوماً ★</div>
+<h1>برنامج <span>أميرة</span><br>لتأهيل ما بعد الولادة</h1>
+<p>الحل مش تمارين أكثر<br>الحل إنكِ تفهمي جسمكِ من الداخل<br><strong style="color:var(--pink)">الوضعية الصح · الحوض والعمود الفقري · التنفس الصح</strong></p>
+<div class="phases">
+<div class="ph"><div class="num">١</div><div class="lbl">التأسيس والتنشيط</div></div>
+<div class="ph"><div class="num">٢</div><div class="lbl">البناء والتطوير</div></div>
+<div class="ph"><div class="num">٣</div><div class="lbl">التقوية المتقدمة</div></div>
+<div class="ph"><div class="num">٤</div><div class="lbl">التحول والنتائج</div></div>
+</div>
+<div class="chips">
+<div class="chip">🎈 بالون</div><div class="chip">🎀 باند</div><div class="chip">🧣 منشفة</div>
+<div class="chip">▶️ روابط يوتيوب</div><div class="chip">📊 متابعة يومية</div>
+<div class="chip">💧 تتبع الماء</div><div class="chip">📏 قياسات أسبوعية</div>
+</div>
+<p style="font-size:.85rem;color:var(--mid);">تصميم: <strong style="color:var(--pink)">— أميرة —</strong> • مدربة تأهيل ولياقة ما بعد الولادة • خبرة 10 سنوات</p>
+</div>
+
+<!-- NAV -->
+
+<nav class="nav">
+<button class="on" onclick="navTo('health',this)">🏥 الحالة الصحية</button>
+<button onclick="navTo('w1',this)">🌸 أسبوع ١</button>
+<button onclick="navTo('w2',this)">أسبوع ٢</button>
+<button onclick="navTo('w3',this)">أسبوع ٣</button>
+<button onclick="navTo('w4',this)">🏆 أسبوع ٤</button>
+<button onclick="navTo('tracking',this)">📊 متابعة</button>
+<button onclick="navTo('nutrition',this)">🥗 تغذية</button>
+<button onclick="navTo('tips',this)">💡 نصائح</button>
+</nav>
+
+<!-- HEALTH -->
+
+<div id="health">
+<div class="sec-head">
+<div class="ey">🏥 التقييم الصحي</div>
+<h2>الحالة الصحية الكاملة</h2>
+<p>كل تمرين مبني على فهم عميق لحالتك — العضلات العميقة أساس كل شيء</p>
+</div>
+<div style="background:white;padding:22px 16px;">
+<div class="cgrid">
+<div class="cc"><div class="cic">🦴</div><div><div class="cn">ديسك الظهر</div><div class="cd">لا انحناء — Core عميق يحمي الظهر</div></div></div>
+<div class="cc"><div class="cic">🦷</div><div><div class="cn">ديسك الرقبة</div><div class="cd">لا ضغط على الرأس — بروتوكول آمن</div></div></div>
+<div class="cc"><div class="cic">💪</div><div><div class="cn">ألم الكتف</div><div class="cd">تقوية تدريجية بالباند فقط</div></div></div>
+<div class="cc"><div class="cic">🩸</div><div><div class="cn">أنيميا</div><div class="cd">هوائي خفيف — مراقبة ضيق التنفس</div></div></div>
+<div class="cc"><div class="cic">🤰</div><div><div class="cn">بروز البطن</div><div class="cd">السبب: انفصال عضلي + ضغط بطني خاطئ</div></div></div>
+<div class="cc"><div class="cic">➖</div><div><div class="cn">انفصال عضلي 3 أصابع</div><div class="cd">⚠️ لا Crunch أبداً — بروتوكول DR كامل</div></div></div>
+<div class="cc"><div class="cic">🦵</div><div><div class="cn">ترهل الأفخاذ</div><div class="cd">مقاومة باند — تشكيل تدريجي</div></div></div>
+<div class="cc"><div class="cic">💫</div><div><div class="cn">ترهل الكتفين</div><div class="cd">تمارين تشكيل آمنة بالباند</div></div></div>
+</div>
+<div class="warn">
+<h4>⚠️ قواعد الأمان — احفظيها غيباً</h4>
+<ul>
+<li>◈ لا Crunch / Sit-up / رفع رجلين كاملتين</li>
+<li>◈ لا Push-up كامل — (ديسك رقبة + كتف)</li>
+<li>◈ إذا ظهر بروز مثلثي في السرة — توقّفي فوراً</li>
+<li>◈ دوخة أو ضيق تنفس مفاجئ — اجلسي فوراً</li>
+<li>◈ كل جلسة تبدأ بـ 5-8 دقائق تنفس بالبالون</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- WEEK 1 -->
+
+<div id="w1">
+<div class="sec-head">
+<div class="ey">الأسبوع الأول</div>
+<h2>التأسيس والتنشيط</h2>
+<p>نُعيد التواصل مع العضلات العميقة — الوضعية الصح والتنفس الصح</p>
+</div>
+<div class="wsec">
+<div class="wban">
+<h3>أسبوع ١ — التأسيس والتنشيط</h3>
+<p>3 أيام تمرين — 4 أيام راحة — جلسات 30-35 دقيقة</p>
+<div class="wtags"><span class="wtag">🎈 بالون</span><span class="wtag">🎀 باند خفيف</span><span class="wtag">🧣 منشفة</span><span class="wtag">💧 8 أكواب ماء</span></div>
+</div>
+
+<!-- D1 -->
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)">
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;">🌸</div>
+<div class="day-info"><div class="dn">اليوم الأول</div><div class="nm">الإثنين</div><div class="fc">تنفس علاجي + تنشيط حوضي + الأفخاذ</div></div>
+</div>
+<div class="day-right"><div class="dur">⏱ 35 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 التنفس العلاجي — 5 دقائق</div>
+<div class="ex b">
+<div class="exn b">1</div>
+<div class="exbody">
+<div class="exname">تنفس البالون العلاجي <span class="tag tbl">🎈 بالون</span><span class="tag tbr">🫁 تنفس</span></div>
+<div class="exdesc">مستلقية على ظهرك، ركبتاك مثنيتان. خذي نفساً عميقاً من أنفك. ثم انفخي البالون ببطء مع الزفير الكامل وشدّي عضلات القاع الحوضي للأعلى. هذا يعالج السبب الجذري للانفصال والبروز.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 8 تكرارات</div><div class="mc">⏸ راحة 30 ث</div></div>
+<a href="https://www.youtube.com/watch?v=bNDRHRrFLDo" target="_blank" class="yt"><div class="ytico">▶</div> Balloon Breathing — Diastasis Recti</a>
+</div>
+</div>
+<div class="pl">💪 التمرين الرئيسي — 20 دقيقة</div>
+<div class="ex">
+<div class="exn">2</div>
+<div class="exbody">
+<div class="exname">قرفصاء نصفية بالباند <span class="tag tb">🎀 باند</span></div>
+<div class="exdesc">الباند فوق الركبتين، قفي بعرض الكتفين. انزلي لنصف الطريق مع ظهر مستقيم وبطن مشدودة للداخل.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div><div class="mc">⏸ راحة 45 ث</div></div>
+<a href="https://www.youtube.com/watch?v=aclHkVaku9U" target="_blank" class="yt"><div class="ytico">▶</div> Resistance Band Squat — Postpartum Safe</a>
+</div>
+</div>
+<div class="ex">
+<div class="exn">3</div>
+<div class="exbody">
+<div class="exname">جسر الأرداف Glute Bridge بالباند <span class="tag tb">🎀 باند</span></div>
+<div class="exdesc">مستلقية، ركبتاك مثنيتان، الباند فوق الوركين. مع الزفير ارفعي أردافك وشدّي البطن للداخل وللأعلى. احتفظي ثانيتين في الأعلى.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div><div class="mc">⏸ راحة 40 ث</div></div>
+<a href="https://www.youtube.com/watch?v=OUgsJ8-Vi0E" target="_blank" class="yt"><div class="ytico">▶</div> Glute Bridge — Diastasis Recti Safe</a>
+</div>
+</div>
+<div class="ex">
+<div class="exn">4</div>
+<div class="exbody">
+<div class="exname">Clamshell المحارة بالباند <span class="tag tb">🎀 باند</span></div>
+<div class="exdesc">مستلقية على جانبك، الباند فوق الركبتين. افتحي الركبة العلوية للأعلى كالمحارة ببطء ثم أغلقيها. يُعالج ترهل الأفخاذ.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 15 لكل جانب</div><div class="mc">⏸ راحة 30 ث</div></div>
+<a href="https://www.youtube.com/watch?v=9uqBBovT_0g" target="_blank" class="yt"><div class="ytico">▶</div> Clamshell Exercise — Hip Abductor</a>
+</div>
+</div>
+<div class="ex">
+<div class="exn">5</div>
+<div class="exbody">
+<div class="exname">سحب الكتف بالمنشفة <span class="tag tt">🧣 منشفة</span></div>
+<div class="exdesc">اجلسي بظهر مستقيم. أمسكي المنشفة بعرض أوسع من الكتفين. اسحبي الطرفين للخارج وارفعي ذراعيك للأمام ببطء. يُقوّي الكتفين بأمان.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 تكرار</div><div class="mc">⏸ راحة 40 ث</div></div>
+<a href="https://www.youtube.com/watch?v=SAiPDwGvPUM" target="_blank" class="yt"><div class="ytico">▶</div> Towel Row — Shoulder & Upper Back</a>
+</div>
+</div>
+<div class="ex">
+<div class="exn">6</div>
+<div class="exbody">
+<div class="exname">شد البطن بالمنشفة Towel Corset <span class="tag tt">🧣 منشفة</span><span class="tag tbr">🫁 تنفس</span></div>
+<div class="exdesc">لفّي المنشفة حول بطنك. مع الزفير اشدّي المنشفة للداخل وللأعلى وأمسكي 5 ثوانٍ. يُقرّب العضلات المنفصلة ويعالج البروز مباشرة.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 تكرار</div><div class="mc">⏱ 5 ث/تكرار</div></div>
+<a href="https://www.youtube.com/watch?v=GpBOKw2MMOM" target="_blank" class="yt"><div class="ytico">▶</div> Towel Splint — Diastasis Recti Healing</a>
+</div>
+</div>
+<div class="ex">
+<div class="exn">7</div>
+<div class="exbody">
+<div class="exname">Dead Bug المُعدّل <span class="tag tbr">🫁 تنفس</span></div>
+<div class="exdesc">مستلقية، ركبتاك مثنيتان. ارفعي ذراعاً واحدة للأعلى ببطء مع زفير عميق وبطن مشدودة. لا ترفعي الأرجل أبداً.</div>
+<div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 8 لكل جانب</div><div class="mc">⏸ راحة 45 ث</div></div>
+<a href="https://www.youtube.com/watch?v=4XLEnwUr1d8" target="_blank" class="yt"><div class="ytico">▶</div> Modified Dead Bug — Diastasis Safe</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- D2 REST -->
+
+<div class="day">
+<div class="day-head rs" onclick="toggleDay(this)">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;font-size:.9rem;">🌿</div><div class="day-info"><div class="dn" style="color:#999">اليوم الثاني</div><div class="nm">الثلاثاء</div><div class="fc" style="color:#999">راحة نشطة</div></div></div>
+<div class="day-right"><div class="dur r">🌿 راحة</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="rest-body"><div class="ri">🌸</div><h3>يوم الراحة والتعافي</h3><p style="font-size:.8rem;color:var(--mid)">العضلات تنمو أثناء الراحة</p><div class="rest-tips"><h5>اليوم:</h5><ul><li>🌸 بالون 5 دقائق صباحاً</li><li>🌸 مشي هادئ 15 دقيقة</li><li>🌸 وجبة غنية بالحديد + فيتامين C</li><li>🌸 نوم مبكر</li></ul></div></div>
+</div>
+</div>
+
+<!-- D3 -->
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">💪</div><div class="day-info"><div class="dn">اليوم الثالث</div><div class="nm">الأربعاء</div><div class="fc">تقوية الكتف الآمنة + Core علاجي</div></div></div>
+<div class="day-right"><div class="dur">⏱ 35 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 تنفس 360 درجة — 5 دقائق</div>
+<div class="ex b"><div class="exn b">1</div><div class="exbody"><div class="exname">تنفس البالون 360 درجة <span class="tag tbl">🎈 بالون</span></div><div class="exdesc">ضعي يدك على جانب بطنك. خذي نفساً واشعري بتوسع الضلوع من الجانبين والأمام والخلف. انفخي البالون ببطء مع الزفير الكامل.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 8 تكرارات</div></div><a href="https://www.youtube.com/watch?v=Ea6b_cPFFoI" target="_blank" class="yt"><div class="ytico">▶</div> 360° Breathing — Transverse Abdominis</a></div></div>
+<div class="pl">💪 التمرين الرئيسي — 25 دقيقة</div>
+<div class="ex"><div class="exn">2</div><div class="exbody"><div class="exname">Row الكتف بالباند <span class="tag tb">🎀 باند</span></div><div class="exdesc">اجلسي على الكرسي، الباند من الأمام. اسحبي ذراعيك للخلف مع شد لوحي الكتفين. ظهرك مستقيم دائماً.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div><div class="mc">⏸ راحة 45 ث</div></div><a href="https://www.youtube.com/watch?v=xQNrFHEMhI4" target="_blank" class="yt"><div class="ytico">▶</div> Seated Band Row — Shoulder & Back</a></div></div>
+<div class="ex"><div class="exn">3</div><div class="exbody"><div class="exname">رفع جانبي Lateral Raise بالباند <span class="tag tb">🎀 باند</span></div><div class="exdesc">قفي على الباند وأمسكي طرفيه. ارفعي ذراعيك للجانبين ببطء حتى مستوى الكتف فقط — لا أعلى!</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 تكرار</div><div class="mc">⏸ راحة 40 ث</div></div><a href="https://www.youtube.com/watch?v=3VcKaXpzqRo" target="_blank" class="yt"><div class="ytico">▶</div> Band Lateral Raise — Shoulder Toning</a></div></div>
+<div class="ex"><div class="exn">4</div><div class="exbody"><div class="exname">خطوة جانبية Lateral Band Walk <span class="tag tb">🎀 باند</span></div><div class="exdesc">الباند فوق الركبتين. 3 خطوات للجانب ثم ارجعي مع قرفصاء خفيفة طوال الوقت. يُقوّي الأفخاذ الخارجية.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 لكل اتجاه</div><div class="mc">⏸ راحة 40 ث</div></div><a href="https://www.youtube.com/watch?v=Cz_r_R1bsGY" target="_blank" class="yt"><div class="ytico">▶</div> Lateral Band Walk — Glute & Thigh</a></div></div>
+</div>
+</div>
+
+<!-- D4 REST -->
+
+<div class="day"><div class="day-head rs" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;">💆‍♀️</div><div class="day-info"><div class="dn" style="color:#999">اليوم الرابع</div><div class="nm">الخميس</div><div class="fc" style="color:#999">راحة كاملة</div></div></div><div class="day-right"><div class="dur r">😴 راحة</div><span class="arr">▼</span></div></div><div class="day-body"><div class="rest-body"><div class="ri">💆‍♀️</div><h3>يوم الاسترخاء</h3><div class="rest-tips"><h5>اليوم:</h5><ul><li>🌸 بالون 5 دقائق فقط</li><li>🌸 حمام دافئ لتخفيف ألم الظهر</li><li>🌸 وجبة غنية بالحديد والبروتين</li></ul></div></div></div></div>
+
+<!-- D5 -->
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">🦵</div><div class="day-info"><div class="dn">اليوم الخامس</div><div class="nm">الجمعة</div><div class="fc">تقوية الأرجل + Clamshell + Core</div></div></div>
+<div class="day-right"><div class="dur">⏱ 40 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 تنفس + قاع حوضي — 5 دقائق</div>
+<div class="ex b"><div class="exn b">1</div><div class="exbody"><div class="exname">تنفس البالون مع شد القاع الحوضي <span class="tag tbl">🎈 بالون</span></div><div class="exdesc">مع كل نفخة للبالون اشدّي عضلات القاع الحوضي للأعلى كما لو تحاولين إيقاف التبول. حافظي على الشد طوال الزفير.</div><div class="meta"><div class="mc">3 × 8 تكرارات</div></div><a href="https://www.youtube.com/watch?v=sFjgR43ZQMM" target="_blank" class="yt"><div class="ytico">▶</div> Pelvic Floor + Balloon Breathing</a></div></div>
+<div class="pl">💪 التمرين الرئيسي — 28 دقيقة</div>
+<div class="ex"><div class="exn">2</div><div class="exbody"><div class="exname">Sumo Squat للأفخاذ الداخلية <span class="tag tb">🎀 باند</span></div><div class="exdesc">الباند فوق الركبتين، قفي بفتح أوسع وأصابع للخارج 45 درجة. انزلي للقرفصاء العميقة. يُركّز على الأفخاذ الداخلية.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div><div class="mc">⏸ راحة 45 ث</div></div><a href="https://www.youtube.com/watch?v=_uGnTtMNrJA" target="_blank" class="yt"><div class="ytico">▶</div> Sumo Squat — Inner Thigh Toning</a></div></div>
+<div class="ex"><div class="exn">3</div><div class="exbody"><div class="exname">رفع الساق الجانبي نائمة بالباند <span class="tag tb">🎀 باند</span></div><div class="exdesc">مستلقية على جانبك، الباند فوق الركبتين، ساقاك مستقيمتان. ارفعي الساق العلوية ببطء لـ45 درجة.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 15 لكل جانب</div><div class="mc">⏸ راحة 30 ث</div></div><a href="https://www.youtube.com/watch?v=sXgGFNkzXCc" target="_blank" class="yt"><div class="ytico">▶</div> Side Lying Leg Raise</a></div></div>
+<div class="ex"><div class="exn">4</div><div class="exbody"><div class="exname">شد البطن بالمنشفة + تنفس <span class="tag tt">🧣 منشفة</span></div><div class="exdesc">المنشفة حول بطنك. مع كل زفير اشدّي للداخل وللأعلى وأمسكي 5 ثوانٍ. 4 × 10 تكرارات.</div><div class="meta"><div class="mc">🔄 4 مجموعات</div><div class="mc">🔢 10 تكرار</div><div class="mc">⏱ 5 ث/تكرار</div></div></div></div>
+</div>
+</div>
+
+<!-- D6 REST -->
+
+<div class="day"><div class="day-head rs" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;">☁️</div><div class="day-info"><div class="dn" style="color:#999">اليوم السادس</div><div class="nm">السبت</div><div class="fc" style="color:#999">راحة تامة</div></div></div><div class="day-right"><div class="dur r">😴 راحة تامة</div><span class="arr">▼</span></div></div><div class="day-body"><div class="rest-body"><div class="ri">☁️</div><h3>راحة كاملة — أنتِ تستحقين</h3><div class="rest-tips"><h5>اليوم:</h5><ul><li>🌸 بالون 5 دق صباحاً</li><li>🌸 دلّلي نفسكِ</li><li>🌸 نوم إضافي إن أمكن</li></ul></div></div></div></div>
+
+<!-- D7 -->
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">⭐</div><div class="day-info"><div class="dn">اليوم السابع</div><div class="nm">الأحد — ختام أسبوع ١</div><div class="fc">مراجعة شاملة + قياسات</div></div></div>
+<div class="day-right"><div class="dur">⏱ 30 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="good"><h4>🏆 أتممتِ الأسبوع الأول! قيّمي:</h4><ul><li>✦ هل أصبح تمرين البالون أسهل؟</li><li>✦ سجّلي محيط البطن والأفخاذ في جدول القياسات</li><li>✦ هل تحسّن مستوى الطاقة؟</li><li>✦ هل تحسّن ألم الظهر ولو قليلاً؟</li></ul></div>
+<div class="ex"><div class="exn">1</div><div class="exbody"><div class="exname">مزيج كامل الأسبوع الأول <span class="tag tb">🎀 باند</span><span class="tag tt">🧣 منشفة</span><span class="tag tbl">🎈 بالون</span></div><div class="exdesc">بالون (3×8) ← قرفصاء (12×3) ← جسر أرداف (12×3) ← Clamshell (15×3) ← شد بطن منشفة (10×3) ← Row كتف (10×3) ← بالون ختامي. 30 دقيقة.</div><div class="meta"><div class="mc">جلسة كاملة 30 دق</div></div></div></div>
+</div>
+</div>
+</div></div><!-- w1 end -->
+
+<!-- WEEK 2 -->
+
+<div id="w2">
+<div class="sec-head"><div class="ey">الأسبوع الثاني</div><h2>البناء والتطوير</h2><p>+20% حمل — تمارين جديدة للذراعين والكتف والأفخاذ</p></div>
+<div class="wsec">
+<div class="wban" style="background:linear-gradient(135deg,#D4507A,#B03560);">
+<h3>أسبوع ٢ — البناء والتطوير</h3><p>4 أيام تمرين — 3 أيام راحة — جلسات 40 دقيقة</p>
+<div class="wtags"><span class="wtag">⬆️ +20% تكرارات</span><span class="wtag">🆕 Bicep + Tricep</span><span class="wtag">🆕 Kickback</span><span class="wtag">🆕 Monster Walk</span></div>
+</div>
+<div class="warn"><h4>📈 قواعد الأسبوع الثاني</h4><ul><li>◈ القرفصاء: 12→15 | جسر الأرداف: 12→15 | Clamshell: 15→18</li><li>◈ تنفس البالون: 4 مجموعات بدلاً من 3</li><li>◈ إذا أصبح التمرين سهلاً → انتقلي لباند أقوى</li></ul></div>
+
+<!-- D8 -->
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)" style="background:linear-gradient(135deg,#D4507A,#B03560);">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">💜</div><div class="day-info"><div class="dn">اليوم الثامن</div><div class="nm">الإثنين</div><div class="fc">Kickback + Bicep + Tricep + Sumo جديدة</div></div></div>
+<div class="day-right"><div class="dur">⏱ 40 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 تنفس علاجي — 5 دقائق</div>
+<div class="ex b"><div class="exn b">1</div><div class="exbody"><div class="exname">تنفس البالون 4 مجموعات <span class="tag tbl">🎈 بالون</span></div><div class="meta"><div class="mc">4 × 8</div></div><a href="https://www.youtube.com/watch?v=bNDRHRrFLDo" target="_blank" class="yt"><div class="ytico">▶</div> Balloon Breathing</a></div></div>
+<div class="pl">💪 تمارين جديدة الأسبوع الثاني</div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Kickback الأرداف بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">قفي قرب الجدار للاتزان، الباند حول الكاحلين. أرسلي ساقاً للخلف ببطء مع شد الأرداف. يُشكّل ويُقوّي الأرداف والأفخاذ الخلفية.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 لكل جانب</div><div class="mc">⏸ راحة 40 ث</div></div><a href="https://www.youtube.com/watch?v=9R_Zb2sK5K0" target="_blank" class="yt"><div class="ytico">▶</div> Glute Kickback — Band Exercise</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Bicep Curl بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">قفي على الباند، أمسكي طرفيه. ثني ذراعيك للأعلى ببطء مع شد البطن. لا تتأرجحي. يُقوّي الذراعين ويعالج الترهل العلوي.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div></div><a href="https://www.youtube.com/watch?v=av7-8igSXTs" target="_blank" class="yt"><div class="ytico">▶</div> Resistance Band Bicep Curl</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Tricep Extension بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">اجلسي مستقيمة، أمسكي الباند بيد فوق الرأس. مدّي الذراع للأعلى ببطء. يُعالج الترهل الخلفي للذراع مباشرة.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 لكل جانب</div></div><a href="https://www.youtube.com/watch?v=YbX7Wd8jQ-U" target="_blank" class="yt"><div class="ytico">▶</div> Tricep Overhead Extension</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Monster Walk بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">الباند حول الكاحلين. امشي للأمام 10 خطوات بتحريك الساقين للخارج في وضع قرفصاء خفيفة، ثم للخلف 10 خطوات.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10+10</div></div><a href="https://www.youtube.com/watch?v=EgKMNS2Y_kA" target="_blank" class="yt"><div class="ytico">▶</div> Monster Walk — Glutes & Thigh</a></div></div>
+</div>
+</div>
+
+<!-- D9-14 REST/TRAIN condensed -->
+
+<div class="day"><div class="day-head rs" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;">🌿</div><div class="day-info"><div class="dn" style="color:#999">اليوم التاسع</div><div class="nm">الثلاثاء</div><div class="fc" style="color:#999">راحة نشطة</div></div></div><div class="day-right"><div class="dur r">🌿 راحة</div><span class="arr">▼</span></div></div><div class="day-body"><div class="rest-body"><div class="ri">🌿</div><h3>راحة + مشي 20 دقيقة</h3><div class="rest-tips"><h5>اليوم:</h5><ul><li>🌸 بالون 5 دق صباحاً</li><li>🌸 مشي 20 دقيقة</li><li>🌸 بروتين + حديد في الغداء</li></ul></div></div></div></div>
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)" style="background:linear-gradient(135deg,#D4507A,#B03560);">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">🦵</div><div class="day-info"><div class="dn">اليوم العاشر</div><div class="nm">الأربعاء</div><div class="fc">Forward Lunge + Shoulder Press + Hammer Curl</div></div></div>
+<div class="day-right"><div class="dur">⏱ 40 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 تنفس — 5 دقائق</div>
+<div class="ex b"><div class="exn b">1</div><div class="exbody"><div class="exname">بالون 4 مجموعات واقفة <span class="tag tbl">🎈 بالون</span></div><div class="meta"><div class="mc">4 × 8</div></div></div></div>
+<div class="pl">💪 التمرين الرئيسي</div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Forward Lunge بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">الباند فوق الركبتين. خطوة واسعة للأمام مع خفض الركبة الخلفية — ظهرك مستقيم. يُقوّي الأرجل كاملاً.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 لكل جانب</div></div><a href="https://www.youtube.com/watch?v=oBVOy7MOOx4" target="_blank" class="yt"><div class="ytico">▶</div> Resistance Band Forward Lunge</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Shoulder Press المعدّل 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">اجلسي، الباند أسفل ظهرك. ارفعي ذراعيك للأعلى حتى 80% فقط. يُشكّل الكتفين ويعالج الترهل.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 تكرار</div></div><a href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank" class="yt"><div class="ytico">▶</div> Seated Band Shoulder Press</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Hammer Curl بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">Curl بيديك في وضع المطرقة (أصابع للداخل). يُفعّل عضلات الذراع من زاوية مختلفة لنتيجة أفضل.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div></div><a href="https://www.youtube.com/watch?v=ykJmrZ5v0Oo" target="_blank" class="yt"><div class="ytico">▶</div> Hammer Curl — Band Arms</a></div></div>
+</div>
+</div>
+
+<div class="day"><div class="day-head rs" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;">💤</div><div class="day-info"><div class="dn" style="color:#999">اليوم 11-12</div><div class="nm">الخميس — الجمعة</div><div class="fc" style="color:#999">راحة + جلسة مزيج</div></div></div><div class="day-right"><div class="dur r">🌿 راحة</div><span class="arr">▼</span></div></div><div class="day-body"><div class="rest-body"><div class="ri">💤</div><h3>راحة كاملة + جلسة مزيج الجمعة</h3><div class="rest-tips"><h5>الجمعة — مزيج الأسبوعين:</h5><ul><li>🌸 بالون (4×8)</li><li>🌸 Sumo (15×3) + Clamshell (18×3)</li><li>🌸 Bicep + Tricep (12×3)</li><li>🌸 Row كتف (15×3)</li><li>🌸 شد بطن منشفة (10×4)</li></ul></div></div></div></div>
+
+<div class="day"><div class="day-head rs" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;">🌟</div><div class="day-info"><div class="dn" style="color:#999">اليوم 13-14</div><div class="nm">السبت — الأحد ختام أسبوع ٢</div><div class="fc" style="color:#999">راحة + تقييم الأسبوعين</div></div></div><div class="day-right"><div class="dur r">⭐ تقييم</div><span class="arr">▼</span></div></div><div class="day-body"><div class="rest-body"><div class="ri">🌟</div><h3>أسبوعان مكتملان!</h3><div class="rest-tips"><h5>قيّمي الآن:</h5><ul><li>🌸 قاسي محيط البطن والأفخاذ</li><li>🌸 اختبري الانفصال — هل تحسّن؟</li><li>🌸 صوّري وقارني باليوم الأول</li></ul></div></div></div></div>
+</div></div><!-- w2 end -->
+
+<!-- WEEK 3 -->
+
+<div id="w3">
+<div class="sec-head"><div class="ey">الأسبوع الثالث</div><h2>التقوية المتقدمة</h2><p>Single Leg، Plank آمن، Romanian Deadlift، Step-Up</p></div>
+<div class="wsec">
+<div class="wban" style="background:linear-gradient(135deg,#C04070,#8A2050);">
+<h3>أسبوع ٣ — التقوية المتقدمة</h3><p>4 أيام تمرين — 3 أيام راحة — جلسات 45-50 دقيقة</p>
+<div class="wtags"><span class="wtag">🆕 Single Leg Bridge</span><span class="wtag">🆕 Squat+Row</span><span class="wtag">🆕 Plank الركبتين</span><span class="wtag">🆕 Romanian DL</span></div>
+</div>
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)" style="background:linear-gradient(135deg,#C04070,#8A2050);">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">✨</div><div class="day-info"><div class="dn">اليوم 15 — الإثنين</div><div class="nm">تمارين مركّبة + Single Leg + Plank</div><div class="fc">أسبوع ٣</div></div></div>
+<div class="day-right"><div class="dur">⏱ 50 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 تنفس مزيج — 7 دقائق</div>
+<div class="ex b"><div class="exn b">1</div><div class="exbody"><div class="exname">بالون جالسة + واقفة <span class="tag tbl">🎈 بالون</span></div><div class="meta"><div class="mc">6 × 8</div></div></div></div>
+<div class="pl">💪 التمرين الرئيسي</div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Single Leg Glute Bridge ساق واحدة 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">جسر الأرداف المعتاد لكن برفع ساق واحدة في الهواء. ابدئي بدون باند. يُضاعف تفعيل الأرداف.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 لكل جانب</div></div><a href="https://www.youtube.com/watch?v=LM8XfHCaJDU" target="_blank" class="yt"><div class="ytico">▶</div> Single Leg Glute Bridge</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Squat + Row مركّب 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">الباند في يديك. انزلي للقرفصاء واسحبي الباند للصدر في نفس الوقت. تمرين مركّب يُنشّط الأرجل والكتفين معاً.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 10 تكرار</div></div><a href="https://www.youtube.com/watch?v=Kg-Ct3wSLFo" target="_blank" class="yt"><div class="ytico">▶</div> Band Squat to Row</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Plank على الركبتين 30 ثانية 🆕 <span class="tag tbr">🫁 تنفس</span><span class="tag tne">جديد</span></div><div class="exdesc">على أربع، مدّي جسمك على ركبتيك. ظهرك مستقيم وبطنك مشدودة للأعلى. تنفسي بانتظام. ⚠️ توقّفي فوراً إذا ظهر بروز في السرة.</div><div class="meta"><div class="mc">🔄 3 × 30 ثانية</div><div class="mc">⏸ راحة 45 ث</div></div><a href="https://www.youtube.com/watch?v=pSHjTRCQxIw" target="_blank" class="yt"><div class="ytico">▶</div> Modified Knee Plank — Diastasis Safe</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Romanian Deadlift بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">قفي على الباند وأمسكي طرفيه. أميلي للأمام ببطء مع ظهر مستقيم تماماً حتى تشعري بشد في الجزء الخلفي من الفخذ.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 تكرار</div></div><a href="https://www.youtube.com/watch?v=hCDzSR6bW10" target="_blank" class="yt"><div class="ytico">▶</div> Band Romanian Deadlift</a></div></div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Step-Up على درجة 🆕 <span class="tag tn">بدون أدوات</span><span class="tag tne">جديد</span></div><div class="exdesc">ضعي قدماً على درجة سلّم أو كتاب سميك. ارتقي ببطء وأنزلي. إمسكي بالحائط للاتزان.</div><div class="meta"><div class="mc">🔄 3 مجموعات</div><div class="mc">🔢 12 لكل جانب</div></div><a href="https://www.youtube.com/watch?v=gwLzBJYoWlI" target="_blank" class="yt"><div class="ytico">▶</div> Step-Up Exercise</a></div></div>
+</div>
+</div>
+
+<div class="day"><div class="day-head rs" onclick="toggleDay(this)"><div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(232,80,122,.08);display:flex;align-items:center;justify-content:center;">🌿</div><div class="day-info"><div class="dn" style="color:#999">اليوم 16-21</div><div class="nm">بقية أسبوع ٣</div><div class="fc" style="color:#999">راحة + تمارين متقدمة + تقييم</div></div></div><div class="day-right"><div class="dur r">📋 التفاصيل</div><span class="arr">▼</span></div></div>
+<div class="day-body">
+<div class="warn"><h4>📋 جدول بقية الأسبوع الثالث</h4><ul>
+<li>◈ الثلاثاء (16): راحة + مشي 25 دقيقة</li>
+<li>◈ الأربعاء (17): Tricep Kickback + Bicep بيد واحدة + Plank 40ث + شد منشفة متقدم</li>
+<li>◈ الخميس (18): راحة كاملة + نوم مبكر</li>
+<li>◈ الجمعة (19): Clamshell+Single Leg Superset + Monster Walk 15+15 + Step-Up</li>
+<li>◈ السبت (20): راحة + مكافأة لنفسكِ</li>
+<li>◈ الأحد (21): قياسات + جلسة مراجعة 45 دقيقة</li>
+</ul></div>
+<div class="good"><h4>✨ 3 أسابيع! التقييم:</h4><ul><li>✦ قاسي كل الأبعاد — يجب أن ترى فرقاً واضحاً</li><li>✦ اختبري الانفصال — المستهدف أقل من 2 أصبع</li><li>✦ هل يمكنك Plank 40ث بلا إجهاد؟</li></ul></div>
+</div></div>
+</div></div><!-- w3 end -->
+
+<!-- WEEK 4 -->
+
+<div id="w4">
+<div class="sec-head"><div class="ey">الأسبوع الرابع</div><h2>التحول والنتائج 🏆</h2><p>5 أيام تمرين — Full Body Circuit — أقصى أداء آمن</p></div>
+<div class="wsec">
+<div class="wban" style="background:linear-gradient(135deg,#A83060,#701040);">
+<h3>أسبوع ٤ — التحول والنتائج</h3><p>5 أيام تمرين — 2 أيام راحة — جلسات 50-55 دقيقة</p>
+<div class="wtags"><span class="wtag">🏆 أقصى أداء آمن</span><span class="wtag">🆕 Full Body Circuit</span><span class="wtag">🆕 Wall Sit</span><span class="wtag">📸 صور التحول</span></div>
+</div>
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)" style="background:linear-gradient(135deg,#A83060,#701040);">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">🔥</div><div class="day-info"><div class="dn">اليوم 22-23 — الإثنين والثلاثاء</div><div class="nm">قوة الجزء العلوي + السفلي</div><div class="fc">Wall Sit + Tricep Superset + Triset الكتف</div></div></div>
+<div class="day-right"><div class="dur">⏱ 50 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="pl">🫁 تنفس 3 أوضاع — 8 دقائق</div>
+<div class="ex b"><div class="exn b">1</div><div class="exbody"><div class="exname">بالون جالسة + واقفة + مشي <span class="tag tbl">🎈 بالون</span></div><div class="meta"><div class="mc">6 × 8</div></div></div></div>
+<div class="pl">💪 الإثنين — قوة الجزء العلوي</div>
+<div class="ex"><div class="exn">2</div><div class="exbody"><div class="exname">Row (18) + Lateral (15) + Press (12) <span class="tag tb">🎀 باند</span></div><div class="exdesc">كل واحد 3 مجموعات. ثم Triset: 10 Row ← 10 Lateral ← 8 Press بدون راحة بينهم.</div><div class="meta"><div class="mc">3 مجموعات لكل تمرين</div></div></div></div>
+<div class="ex"><div class="exn">3</div><div class="exbody"><div class="exname">Bicep (15) + Tricep Superset <span class="tag tb">🎀 باند</span></div><div class="exdesc">8 Overhead Extension مباشرة بعدها 8 Kickback بدون راحة. 3 Supersets.</div><div class="meta"><div class="mc">3 Supersets</div></div><a href="https://www.youtube.com/watch?v=YbX7Wd8jQ-U" target="_blank" class="yt"><div class="ytico">▶</div> Tricep Superset</a></div></div>
+<div class="pl">💪 الثلاثاء — قوة الجزء السفلي</div>
+<div class="ex g"><div class="exn g">★</div><div class="exbody"><div class="exname">Wall Sit بالباند 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">جديد</span></div><div class="exdesc">اجلسي على الجدار بزاوية 90 درجة، الباند فوق الركبتين. احتفظي 30 ثانية مع زفير منتظم. أقوى تمرين إجهاد ثابت للأفخاذ والأرداف.</div><div class="meta"><div class="mc">🔄 3 × 30 ثانية</div><div class="mc">⏸ راحة دقيقة</div></div><a href="https://www.youtube.com/watch?v=y-wV4Venusw" target="_blank" class="yt"><div class="ytico">▶</div> Wall Sit — Band Leg Isometric</a></div></div>
+<div class="ex"><div class="exn">5</div><div class="exbody"><div class="exname">Sumo (15×4) + Lunge (12×3) + Kickback+Clamshell Superset <span class="tag tb">🎀 باند</span></div><div class="exdesc">الثلاثاء: Sumo بتوقف 3 ث في القاع ← Forward Lunge ← Kickback+Clamshell دائرة مكثفة.</div><div class="meta"><div class="mc">حسب كل تمرين</div></div></div></div>
+</div>
+</div>
+
+<div class="day">
+<div class="day-head tr" onclick="toggleDay(this)" style="background:linear-gradient(135deg,#A83060,#701040);">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">💥</div><div class="day-info"><div class="dn">اليوم 25 — الخميس</div><div class="nm">Full Body Circuit — أقوى جلسة في البرنامج</div><div class="fc">3 جولات كاملة</div></div></div>
+<div class="day-right"><div class="dur">⏱ 55 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="ex g">
+<div class="exn g">★</div>
+<div class="exbody">
+<div class="exname">دائرة Full Body — 3 جولات 🆕 <span class="tag tb">🎀 باند</span><span class="tag tne">Circuit</span></div>
+<div class="exdesc" style="line-height:2;">
+① قرفصاء بالباند — 15 تكرار<br>
+② Row الكتف — 12 تكرار<br>
+③ Single Leg Bridge — 10 كل جانب<br>
+④ Lateral Raise — 12 تكرار<br>
+⑤ Monster Walk — 15+15<br>
+⑥ Bicep Curl — 12 تكرار<br>
+⑦ Plank الركبتين — 50 ثانية<br>
+⑧ Kickback الأرداف — 12 كل جانب<br>
+<strong>بعد كل جولة: 90 ثانية راحة + 3 أنفاس بالون</strong>
+</div>
+<div class="meta"><div class="mc">3 جولات كاملة</div><div class="mc">⏸ 90 ث بين الجولات</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- D28 FINAL -->
+
+<div class="day">
+<div class="day-head" style="background:linear-gradient(135deg,#E8507A,#A83060);color:white;" onclick="toggleDay(this)">
+<div style="display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;">🏆</div><div class="day-info"><div class="dn">اليوم الثامن والعشرون</div><div class="nm">الأحد — يوم التخرج 🎓</div><div class="fc">القياسات النهائية + جلسة الختام + صور التحول</div></div></div>
+<div class="day-right"><div class="dur">⏱ 55 دق</div><span class="arr">▼</span></div>
+</div>
+<div class="day-body">
+<div class="good" style="background:linear-gradient(135deg,#fff8e0,#fef0cc);border-color:#E8B84D;">
+<h4 style="color:#7A5C00;">🏆 28 يوماً! القياسات النهائية الآن</h4>
+<ul style="color:#5A4000;">
+<li>✦ سجّلي محيط البطن — ما الذي تغيّر؟</li>
+<li>✦ سجّلي محيط الأفخاذ — يجب أن يكون تحسّن واضح</li>
+<li>✦ اختبري الانفصال — المستهدف 1 أصبع أو أقل</li>
+<li>✦ صوّري من الجانب والأمام وقارني باليوم الأول 📸</li>
+</ul>
+</div>
+<div class="ex g"><div class="exn g">🏆</div><div class="exbody"><div class="exname">جلسة التخرج — 2 جولات <span class="tag tb">🎀 باند</span><span class="tag tt">🧣 منشفة</span><span class="tag tbl">🎈 بالون</span></div><div class="exdesc" style="line-height:2;">بالون 3 أوضاع 8 دقائق<br>① Sumo 15 ② Single Leg Bridge 10 ③ Squat+Row 10<br>④ Kickback 12 ⑤ Wall Sit 30ث ⑥ Lateral Raise 15<br>⑦ Bicep+Tricep Superset ⑧ Plank 50ث ⑨ شد البطن منشفة 10<br>تأمل ختامي 10 دقائق — احتفلي بنفسك 🌸</div><div class="meta"><div class="mc">2 جولات كاملة</div><div class="mc">55 دقيقة</div></div></div></div>
+</div>
+</div>
+</div></div><!-- w4 end -->
+
+<!-- TRACKING -->
+
+<div id="tracking">
+<div class="sec-head"><div class="ey">📊 المتابعة</div><h2>تتبّعي تقدمك يوماً بيوم</h2><p>الانتظام هو السر الوحيد — سجّلي كل يوم</p></div>
+<div style="background:white;padding:22px 16px;">
+<div class="water">
+<h4>💧 متتبع الماء اليومي</h4>
+<p>الهدف 8 أكواب يومياً — ضروري لعلاج الأنيميا والطاقة</p>
+<div class="cups">
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span class="cup" onclick="this.classList.toggle('on');updateWater()">🥤</span>
+<span id="wct" style="font-size:.75rem;font-weight:700;color:#0D47A1;margin-right:8px;">0 / 8 أكواب</span>
+</div>
+</div>
+
+<div class="prog"><div class="prog-lbl"><span>الأسبوع ١</span><span id="p1t">0%</span></div><div class="prog-bar"><div class="prog-fill" id="p1b"></div></div></div>
+<div class="prog"><div class="prog-lbl"><span>الأسبوع ٢</span><span id="p2t">0%</span></div><div class="prog-bar"><div class="prog-fill" id="p2b" style="background:linear-gradient(90deg,#D4507A,#EF9AB8)"></div></div></div>
+<div class="prog"><div class="prog-lbl"><span>الأسبوع ٣</span><span id="p3t">0%</span></div><div class="prog-bar"><div class="prog-fill" id="p3b" style="background:linear-gradient(90deg,#C04070,#DE8AAA)"></div></div></div>
+<div class="prog"><div class="prog-lbl"><span>الأسبوع ٤</span><span id="p4t">0%</span></div><div class="prog-bar"><div class="prog-fill" id="p4b" style="background:linear-gradient(90deg,#A83060,#CE7A9A)"></div></div></div>
+
+<div id="trackerArea"></div>
+
+<h3 style="font-size:1.1rem;font-weight:900;margin:24px 0 6px;">📏 جدول القياسات</h3>
+<div class="tblwrap">
+<table class="meas">
+<thead><tr><th>القياس</th><th>قبل</th><th>أ.١</th><th>أ.٢</th><th>أ.٣</th><th>أ.٤ 🏆</th></tr></thead>
+<tbody>
+<tr><td>محيط البطن (سم)</td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—" style="border-color:var(--pink)"></td></tr>
+<tr><td>محيط الأفخاذ (سم)</td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—" style="border-color:var(--pink)"></td></tr>
+<tr><td>الوزن (كغ)</td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—" style="border-color:var(--pink)"></td></tr>
+<tr><td>الانفصال (أصابع)</td><td><input type="number" value="3"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—"></td><td><input type="number" placeholder="—" style="border-color:var(--pink)"></td></tr>
+<tr><td>الطاقة (1-10)</td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—" style="border-color:var(--pink)"></td></tr>
+<tr><td>ألم الظهر (1-10)</td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—"></td><td><input type="number" min="1" max="10" placeholder="—" style="border-color:var(--pink)"></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><!-- tracking end -->
+
+<!-- NUTRITION -->
+
+<div id="nutrition">
+<div class="sec-head"><div class="ey">🥗 التغذية</div><h2>خطة التغذية الداعمة</h2><p>التغذية 50% من نجاح البرنامج</p></div>
+<div class="nutsec">
+<div class="nutcard"><h4>🩸 علاج الأنيميا — أولوية قصوى</h4><div class="fgrid"><div class="fc">🫘 العدس يومياً</div><div class="fc">🥩 لحم أحمر خالٍ</div><div class="fc">🌿 سبانخ + خضار ورقية</div><div class="fc">🍊 فيتامين C مع كل وجبة</div><div class="fc">🐟 سردين أو تونة</div><div class="fc">🥚 بيضتان يومياً</div><div class="fc">🍋 ليمون في الماء</div><div class="fc">🌰 مكسرات وبذور</div></div></div>
+<div class="nutcard"><h4>💪 تعافي العضلات</h4><div class="fgrid"><div class="fc">🍗 صدر دجاج مشوي</div><div class="fc">🥣 شوفان الصباح</div><div class="fc">🧀 جبن قريش</div><div class="fc">🥑 أفوكادو</div><div class="fc">🍌 موز بعد التمرين</div><div class="fc">💊 أوميجا 3 للمفاصل</div></div></div>
+<div class="nutcard"><h4>🚫 تجنّبي طوال البرنامج</h4><div class="fgrid"><div class="bc">☕ كافيين زائد يمنع الحديد</div><div class="bc">🥤 مشروبات غازية</div><div class="bc">🍟 مقليات ومعالجة</div><div class="bc">🍬 سكريات مصنّعة</div></div></div>
+</div>
+</div>
+
+<!-- TIPS -->
+
+<div id="tips">
+<div class="sec-head"><div class="ey">💡 النصائح</div><h2>حكمة 10 سنوات</h2><p>كل نصيحة مبنية على تجربة مئات الحالات</p></div>
+<div class="tipssec">
+<div class="tip r"><div class="em">🎈</div><div><h5>البالون علاج — مش إحماء</h5><p>الحل مش تمارين أكثر — الحل إنكِ تفهمي جسمكِ من الداخل. 5-8 دقائق صباحاً وقبل النوم = أقوى دواء للانفصال والبروز.</p></div></div>
+<div class="tip g"><div class="em">⚠️</div><div><h5>البروز المثلثي — الخط الأحمر</h5><p>إذا ظهر بروز مثلثي في وسط بطنكِ أثناء أي تمرين — توقّفي في الثانية الحالية. هذا يعني أن التمرين يزيد الانفصال لا يعالجه.</p></div></div>
+<div class="tip t"><div class="em">🦴</div><div><h5>الوضعية الصح أساس كل شيء</h5><p>الحوض المحايد والعمود الفقري المستقيم + التنفس الصح = العضلات العميقة الثلاث تعمل معاً. هذا اللي ما حدا بيشتغل عليه.</p></div></div>
+<div class="tip l"><div class="em">💧</div><div><h5>الماء والأنيميا — علاقة مباشرة</h5><p>8 أكواب يومياً + ليمونة لكل كوبين = تسريع امتصاص الحديد ورفع الطاقة. هذا جزء من بروتوكول العلاج وليس اختياراً.</p></div></div>
+<div class="tip r"><div class="em">😴</div><div><h5>النوم = أقوى مكمل غذائي مجاني</h5><p>بدون 7-8 ساعات نوم: العضلات لا تتعافى، الكورتيزول يرتفع، الأنيميا تتفاقم. النوم جزء رسمي من بروتوكول التأهيل.</p></div></div>
+<div class="tip g"><div class="em">📸</div><div><h5>الصور أصدق من الميزان</h5><p>خذي صورة من الأمام والجانب كل أسبوع بنفس الملابس والإضاءة. ستُظهر تحولاً مذهلاً لن يظهره الميزان.</p></div></div>
+</div>
+</div>
+
+<!-- QUOTE -->
+
+<div class="quote">
+<q>"الحل مش تمارين أكثر<br>الحل إنكِ تفهمي جسمكِ من الداخل<br>الوضعية الصح · التنفس الصح · العضلات العميقة<br><span style="color:var(--dark)">هذا البرنامج اللي ما حدا بيشتغل عليه"</span></q>
+<cite>— أميرة، مدربة تأهيل ولياقة ما بعد الولادة</cite>
+</div>
+
+<footer>
+<div class="fb">@amira.postpartum</div>
+<div class="ft">مدربة تأهيل ولياقة ما بعد الولادة • خبرة 10 سنوات • برنامج 4 أسابيع</div>
+<div class="fd">⚠️ هذا البرنامج لحالة صحية خاصة ولا يُغني عن الاستشارة الطبية. حقوق البرنامج محفوظة — @amira.postpartum</div>
+</footer>
+
+<script>
+// TOGGLE DAY
+function toggleDay(el){
+var body=el.nextElementSibling;
+var arr=el.querySelector('.arr');
+var isOpen=body.style.display==='block';
+body.style.display=isOpen?'none':'block';
+if(arr)arr.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+
+// NAV
+function navTo(id,btn){
+var el=document.getElementById(id);
+if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+var btns=document.querySelectorAll('.nav button');
+for(var i=0;i<btns.length;i++){btns[i].classList.remove('on');}
+btn.classList.add('on');
+}
+
+// WATER
+function updateWater(){
+var cups=document.querySelectorAll('.cup.on');
+document.getElementById('wct').textContent=cups.length+' / 8 أكواب';
+}
+
+// BUILD TRACKER TABLES
+var weeks=[
+{n:1,pid:'p1',exs:['🎈 تنفس بالبالون','🦵 قرفصاء بالباند','🍑 جسر الأرداف','🦑 Clamshell','🧣 شد بطن منشفة','💪 Row الكتف','💧 8 أكواب ماء','😴 نوم كافٍ']},
+{n:2,pid:'p2',exs:['🎈 تنفس بالبالون','🍑 Kickback الأرداف','🦵 Sumo Squat','💪 Bicep Curl','💪 Tricep Extension','🚶 Monster Walk','💧 8 أكواب ماء','😴 نوم كافٍ']},
+{n:3,pid:'p3',exs:['🎈 تنفس بالبالون','🦵 Single Leg Bridge','🏋️ Squat+Row مركّب','🧘 Plank الركبتين','🏋️ Romanian Deadlift','🪜 Step-Up','💧 8 أكواب ماء','😴 نوم كافٍ']},
+{n:4,pid:'p4',exs:['🎈 تنفس بالبالون','🔥 Full Body Circuit','🧱 Wall Sit','🧘 Plank 50ث','💪 Triset الكتف','🏋️ Dead Bug متقدم','💧 8 أكواب ماء','📸 صور التقدم']}
+];
+var days=['إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت','أحد'];
+var area=document.getElementById('trackerArea');
+
+for(var w=0;w<weeks.length;w++){
+var wk=weeks[w];
+var html='<h3 style="font-size:1rem;font-weight:900;margin:20px 0 8px;">أسبوع '+wk.n+' — جدول التمارين</h3><div class="tblwrap"><table><thead><tr><th>التمرين</th>';
+for(var d=0;d<days.length;d++){html+='<th>'+days[d]+'</th>';}
+html+='</tr></thead><tbody>';
+for(var e=0;e<wk.exs.length;e++){
+html+='<tr><td>'+wk.exs[e]+'</td>';
+for(var d2=0;d2<days.length;d2++){
+var id='c'+wk.n+'_'+e+'_'+d2;
+html+='<td><div class="chk" id="'+id+'" onclick="tickBox(this,\''+wk.pid+'\')"></div></td>';
+}
+html+='</tr>';
+}
+html+='</tbody></table></div>';
+area.innerHTML+=html;
+}
+
+function tickBox(el,pid){
+el.classList.toggle('on');
+if(el.classList.contains('on'))el.textContent='✓'; else el.textContent='';
+var n=parseInt(pid.replace('p',''));
+var all=document.querySelectorAll('[id^="c'+n+'_"]');
+var on=document.querySelectorAll('[id^="c'+n+'_"].on');
+var pct=Math.round((on.length/all.length)*100);
+document.getElementById(pid+'t').textContent=pct+'%';
+document.getElementById(pid+'b').style.width=pct+'%';
+}
+</script>
+
+</body>
+</html>
